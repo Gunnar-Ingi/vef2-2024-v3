@@ -9,7 +9,7 @@ describe('logger', () => {
   it('should log info', async () => {
     const spy = jest.spyOn(console, 'info').mockImplementation(() => {});
     new Logger().info('info');
-    expect(spy).toHaveBeenCalledWith(['info']);
+    expect(spy).toHaveBeenCalledWith('info');
     spy.mockRestore();
   });
 
@@ -17,7 +17,7 @@ describe('logger', () => {
     const spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
     new Logger().warn('hello');
-    expect(spy).toHaveBeenCalledWith(['hello']);
+    expect(spy).toHaveBeenCalledWith('hello');
     spy.mockRestore();
   });
 
@@ -25,7 +25,7 @@ describe('logger', () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     new Logger().error('error');
-    expect(spy).toHaveBeenCalledWith(['error']);
+    expect(spy).toHaveBeenCalledWith('error');
     spy.mockRestore();
   });
 

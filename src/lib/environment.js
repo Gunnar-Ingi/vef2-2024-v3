@@ -1,3 +1,4 @@
+/** Default port if none provided. */
 const DEFAULT_PORT = 3000;
 
 /**
@@ -25,20 +26,20 @@ export function environment(env, logger) {
 
   const {
     PORT: port,
-    SESSION_SECRET: sessionSecret,
-    DATABASE_URL: connectionString,
+    SESSION_SECRET: envSessionSecret,
+    DATABASE_URL: envConnectionString,
   } = env;
 
   let error = false;
 
-  if (!sessionSecret || sessionSecret.length < 32) {
+  if (!envSessionSecret || envSessionSecret.length < 32) {
     logger.error(
       'SESSION_SECRET must be defined as string and be at least 32 characters long',
     );
     error = true;
   }
 
-  if (!connectionString || connectionString.length === 0) {
+  if (!envConnectionString || envConnectionString.length === 0) {
     logger.error('DATABASE_URL must be defined as a string');
     error = true;
   }
@@ -60,11 +61,16 @@ export function environment(env, logger) {
     return null;
   }
 
+  // We know these are defined because we checked above
+  /** @type {any} */
+  const sessionSecret = envSessionSecret;
+  /** @type {any} */
+  const connectionString = envConnectionString;
+
   parsedEnv = {
     port: usedPort,
-    // We've validate both above so the `?? ''` is just to satisfy the types
-    sessionSecret: sessionSecret ?? '',
-    connectionString: connectionString ?? '',
+    sessionSecret,
+    connectionString,
   };
 
   return parsedEnv;

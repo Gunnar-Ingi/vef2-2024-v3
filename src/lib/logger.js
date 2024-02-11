@@ -7,21 +7,21 @@ export class Logger {
     if (this.silent) {
       return;
     }
-    console.info(messages);
+    console.info(...messages);
   }
 
   warn(...messages) {
     if (this.silent) {
       return;
     }
-    console.warn(messages);
+    console.warn(...messages);
   }
 
   error(...messages) {
     if (this.silent) {
       return;
     }
-    console.error(messages);
+    console.error(...messages);
   }
 }
 

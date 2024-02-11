@@ -1,5 +1,69 @@
 <%- include('header') -%>
 
-admin!
+<% if (locals.message) { %>
+  <p><%= locals.message %></p>
+<% } %>
+
+<section>
+  <h2>Bæta við leik</h2>
+
+  <% if (locals.errors?.length) { %>
+    <h3 class="errors__title">Villur við skráningu:</h3>
+    <ul class="errors">
+      <% locals.errors.forEach((error) => { %>
+        <li class="error"><label for="<%= error.param %>"><%= error.msg %></label></li>
+      <% }); %>
+    </ul>
+  <% } %>
+
+  <form method="post" action="/admin/create" class="form">
+    <div class="field<%= locals.isInvalid('date', locals.errors) ?  ' invalid' : '' %>">
+      <label>Dagsetning:</label>
+      <input type="datetime-local" name="date" value="<%= locals.data?.date ?? '' %>">
+    </div>
+    <div class="field<%= locals.isInvalid('home', locals.errors) ?  ' invalid' : '' %>">
+      <label>Heimilið:</label>
+      <select name="home">
+        <option>--Veldu lið--</option>
+        <% for (const team of locals.teams) { %>
+          <option
+            <%= (locals.data?.home ?? '') === team.id.toString() ? 'selected' : '' %>
+            value="<%= team.id %>"
+          >
+            <%= team.name %>
+          </option>
+        <% } %>
+      </select>
+    </div>
+    <div class="field<%= locals.isInvalid('away', locals.errors) ?  ' invalid' : '' %>">
+      <label>Útilið:</label>
+      <select name="away">
+        <option>--Veldu lið--</option>
+        <% for (const team of locals.teams) { %>
+          <option
+          <%= (locals.data?.away ?? '') === team.id.toString() ? 'selected' : '' %>
+            value="<%= team.id %>"
+          >
+            <%= team.name %>
+          </option>
+        <% } %>
+      </select>
+    </div>
+    <div class="field<%= locals.isInvalid('home_score', locals.errors) ?  ' invalid' : '' %>">
+      <label>Stig heimiliðs:</label>
+      <input type="number" name="home_score" value="<%= locals.data?.home_score ?? '' %>">
+    </div>
+    <div class="field<%= locals.isInvalid('away_score', locals.errors) ?  ' invalid' : '' %>">
+      <label>Stig útiliðs:</label>
+      <input type="number" name="away_score" value="<%= locals.data?.away_score ?? '' %>">
+    </div>
+    <button class="button">Bæta við leik</button>
+  </form>
+</section>
+
+<section>
+  <h2>Leikir</h2>
+  <%- include('games') -%>
+</section>
 
 <%- include('footer') -%>

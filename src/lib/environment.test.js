@@ -72,4 +72,26 @@ describe('environment', () => {
       connectionString: 'postgres://',
     });
   });
+
+  it('should use cached value', async () => {
+    /** @type import('./logger').Logger */
+    const logger = {
+      silent: false,
+      info: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+    };
+
+    /** @type any */
+    const env = {
+      SESSION_SECRET: '12345678901234567890123456789012',
+      DATABASE_URL: 'postgres://',
+      PORT: '1234',
+    };
+    const result1 = environment(env, logger);
+    const result2 = environment(env, logger);
+
+    // Ensure that the **same** object is returned
+    expect(result1).toStrictEqual(result2);
+  });
 });
