@@ -11,9 +11,10 @@ export class Database {
   /**
    * Create a new database connection.
    * @param {string} connectionString
-   * @param {import('./logger').Logger} logger
+   * @param {import('./logger.js').Logger} logger
    */
-  constructor(connectionString, logger) {
+
+  constructor(connectionString, logger ) {
     this.connectionString = connectionString;
     this.logger = logger;
   }
@@ -324,3 +325,5 @@ export function getDatabase() {
 
   return db;
 }
+
+export const dataFetch = getDatabase();
